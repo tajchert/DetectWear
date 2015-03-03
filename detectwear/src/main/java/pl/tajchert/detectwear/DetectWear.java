@@ -19,13 +19,19 @@ public class DetectWear {
     private static ArrayList<Node> nodesList = new ArrayList<>();
     private static NodesListener nodesListener;
     private static GoogleApiClient mGoogleApiClient;
+    private static NodeConnectionStates connectionState = NodeConnectionStates.Undetermined;
+    public static enum NodeConnectionStates {Connected, NotConnected, Undetermined}
 
     public static void init(final Context context) {
         initGoogleApiClient(context);
     }
 
-    public static boolean isConnected(){
+    public static boolean isConnected() {
         return nodesList.size() > 0;
+    }
+
+    public static NodeConnectionStates getConnectionState() {
+        return connectionState;
     }
 
     public static ArrayList<Node> getNodes(){
@@ -52,6 +58,7 @@ public class DetectWear {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.d(TAG, "onConnectionFailed ");
+                            connectionState = NodeConnectionStates.NotConnected; //Lack of Google Play Services? (needs more testing)
                         }
                     }).addApi(Wearable.API).build();
             Wearable.NodeApi.addListener(mGoogleApiClient, new NodeApi.NodeListener() {
@@ -64,6 +71,7 @@ public class DetectWear {
                         nodesListener.nodesChanged(nodesList);
                         nodesListener.onNewConnectedNode(node);
                     }
+                    connectionState = NodeConnectionStates.Connected;
                 }
 
                 @Override
@@ -75,6 +83,7 @@ public class DetectWear {
                         nodesListener.nodesChanged(nodesList);
                         if (nodesList.size() == 0) {
                             nodesListener.onNoConnectedNode();
+                            connectionState = NodeConnectionStates.NotConnected;
                         }
                     }
                 }
@@ -91,6 +100,9 @@ public class DetectWear {
                 for (Node node : getConnectedNodesResult.getNodes()) {
                     nodesList.add(node);
                     nodesListener.onNewConnectedNode(node);
+                }
+                if(nodesList.size() > 0){
+                    connectionState = NodeConnectionStates.Connected;
                 }
                 nodesListener.nodesChanged(nodesList);
             }

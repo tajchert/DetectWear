@@ -1,1 +1,1 @@
-include ':app', ':detectwear'
+include ':sampleApp', ':detectwear'
