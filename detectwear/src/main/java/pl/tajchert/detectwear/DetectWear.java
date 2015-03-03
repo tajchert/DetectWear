@@ -19,8 +19,8 @@ public class DetectWear {
     private static ArrayList<Node> nodesList = new ArrayList<>();
     private static NodesListener nodesListener;
     private static GoogleApiClient mGoogleApiClient;
-    private static NodeConnectionStates connectionState = NodeConnectionStates.Undetermined;
-    public static enum NodeConnectionStates {Connected, NotConnected, Undetermined}
+    private static NodeConnectionState connectionState = NodeConnectionState.Undetermined;
+    public static enum NodeConnectionState {Connected, NotConnected, Undetermined}
 
     public static void init(final Context context) {
         initGoogleApiClient(context);
@@ -30,7 +30,7 @@ public class DetectWear {
         return nodesList.size() > 0;
     }
 
-    public static NodeConnectionStates getConnectionState() {
+    public static NodeConnectionState getConnectionState() {
         return connectionState;
     }
 
@@ -58,7 +58,7 @@ public class DetectWear {
                         @Override
                         public void onConnectionFailed(ConnectionResult result) {
                             Log.d(TAG, "onConnectionFailed ");
-                            connectionState = NodeConnectionStates.NotConnected; //Lack of Google Play Services? (needs more testing)
+                            connectionState = NodeConnectionState.NotConnected; //Lack of Google Play Services? (needs more testing)
                         }
                     }).addApi(Wearable.API).build();
             Wearable.NodeApi.addListener(mGoogleApiClient, new NodeApi.NodeListener() {
@@ -71,7 +71,7 @@ public class DetectWear {
                         nodesListener.nodesChanged(nodesList);
                         nodesListener.onNewConnectedNode(node);
                     }
-                    connectionState = NodeConnectionStates.Connected;
+                    connectionState = NodeConnectionState.Connected;
                 }
 
                 @Override
@@ -83,7 +83,7 @@ public class DetectWear {
                         nodesListener.nodesChanged(nodesList);
                         if (nodesList.size() == 0) {
                             nodesListener.onNoConnectedNode();
-                            connectionState = NodeConnectionStates.NotConnected;
+                            connectionState = NodeConnectionState.NotConnected;
                         }
                     }
                 }
@@ -102,7 +102,7 @@ public class DetectWear {
                     nodesListener.onNewConnectedNode(node);
                 }
                 if(nodesList.size() > 0){
-                    connectionState = NodeConnectionStates.Connected;
+                    connectionState = NodeConnectionState.Connected;
                 }
                 nodesListener.nodesChanged(nodesList);
             }
