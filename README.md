@@ -2,7 +2,7 @@
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/pl.tajchert/detectwear/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/pl.tajchert/detectwear)
 
-Small library to detect if user has Android Wear device, and reacting to its getting connected/disconnected.
+Small library to detect if user has Android Wear device, and reacting to its getting connected/disconnected. It just save you work of setting up GoogleApiClient and NodeListener. Nothing fancy but for me quite useful. 
 
 ###How to use it?
 Just add gradle dependency or copy class [DetectWear.java](https://raw.githubusercontent.com/tajchert/DetectWear/master/detectwear/src/main/java/pl/tajchert/detectwear/DetectWear.java) to your project, just remember to initialized it on app start, such as:
