@@ -1,5 +1,4 @@
-#DetectWear - simple detecting Android Wear device
-=======
+##DetectWear - simple detecting Android Wear device
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/pl.tajchert/detectwear/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/pl.tajchert/detectwear)
 
