@@ -121,12 +121,16 @@ public class DetectWear {
                 nodesList = new ArrayList<>();
                 for (Node node : getConnectedNodesResult.getNodes()) {
                     nodesList.add(node);
-                    nodesListener.onNewConnectedNode(node);
+                    if(nodesListener != null) {
+                        nodesListener.onNewConnectedNode(node);
+                    }
                 }
                 if(nodesList.size() > 0){
                     connectionState = NodeConnectionState.Connected;
                 }
-                nodesListener.nodesChanged(nodesList);
+                if(nodesListener != null) {
+                    nodesListener.nodesChanged(nodesList);
+                }
             }
         });
     }
